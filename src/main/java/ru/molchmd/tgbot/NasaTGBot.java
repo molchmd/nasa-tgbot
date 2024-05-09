@@ -1,4 +1,4 @@
-package ru.molchmd.nasa;
+package ru.molchmd.tgbot;
 
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
