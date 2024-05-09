@@ -2,14 +2,14 @@ package ru.molchmd.nasa;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 public class NasaImageData {
-    String copyright;
-    String date;
-    String explanation;
-    String hurl;
-    String media_type;
-    String service_version;
-    String title;
-    public String url;
+    private String copyright;
+    private String date;
+    private String explanation;
+    private String hurl;
+    private String media_type;
+    private String service_version;
+    private String title;
+    private String url;
 
     public NasaImageData(@JsonProperty("copyright") String copyright,
                      @JsonProperty("date") String date,
@@ -27,5 +27,36 @@ public class NasaImageData {
         this.service_version = service_version;
         this.title = title;
         this.url = url;
+    }
+    public String getCopyright() {
+        return copyright;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public String getExplanation() {
+        return explanation;
+    }
+
+    public String getHurl() {
+        return hurl;
+    }
+
+    public String getMedia_type() {
+        return media_type;
+    }
+
+    public String getService_version() {
+        return service_version;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getUrl() {
+        return url;
     }
 }
