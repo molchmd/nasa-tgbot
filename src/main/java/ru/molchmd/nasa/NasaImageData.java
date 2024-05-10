@@ -7,6 +7,7 @@ public class NasaImageData {
     private String explanation;
     private String hurl;
     private String media_type;
+    private String thumbnail_url;
     private String service_version;
     private String title;
     private String url;
@@ -16,6 +17,7 @@ public class NasaImageData {
                      @JsonProperty("explanation") String explanation,
                      @JsonProperty("hdurl") String hurl,
                      @JsonProperty("media_type") String media_type,
+                     @JsonProperty("thumbnail_url") String thumbnail_url,
                      @JsonProperty("service_version") String service_version,
                      @JsonProperty("title") String title,
                      @JsonProperty("url") String url) {
@@ -24,6 +26,7 @@ public class NasaImageData {
         this.explanation = explanation;
         this.hurl = hurl;
         this.media_type = media_type;
+        this.thumbnail_url = thumbnail_url;
         this.service_version = service_version;
         this.title = title;
         this.url = url;
@@ -57,6 +60,7 @@ public class NasaImageData {
     }
 
     public String getUrl() {
-        return url;
+        if ("video".equals(media_type)) return thumbnail_url;
+        else return url;
     }
 }
