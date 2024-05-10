@@ -3,6 +3,8 @@ package ru.molchmd.tgbot;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.send.SendPhoto;
+import org.telegram.telegrambots.meta.api.objects.InputFile;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
@@ -30,17 +32,23 @@ public class NasaTGBot extends TelegramLongPollingBot {
             long chatId = update.getMessage().getChatId();
             String userText = update.getMessage().getText().toLowerCase();
 
-            SendMessage botText = new SendMessage();
-            botText.setChatId(chatId);
+            SendPhoto botPhoto = new SendPhoto();
+            botPhoto.setChatId(chatId);
+
             if (!("картинка".equals(userText))) {
-                botText.setText("Я вас не понимаю!\n" + nasaApi.ERROR_URL);
+                botPhoto.setCaption("Я вас не понимаю!");
+                botPhoto.setPhoto(nasaApi.ERROR_PHOTO);
+                System.out.println("[" + chatId + " write a word is not equal картинка");
             }
             else {
-                botText.setText(nasaApi.getImageURL());
+                botPhoto.setPhoto(nasaApi.getPhoto());
+                botPhoto.setCaption(nasaApi.getNasaImageName());
+                System.out.println("[" + chatId + "] write a word is equal картинка");
             }
 
             try {
-                execute(botText);
+                execute(botPhoto);
+                System.out.println("Send a photo to [" + chatId +"]");
             } catch (TelegramApiException e) {
                 System.out.println("Error!");
             }
