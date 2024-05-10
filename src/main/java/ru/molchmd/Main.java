@@ -5,6 +5,6 @@ import ru.molchmd.tgbot.NasaTGBot;
 
 public class Main {
     public static void main(String[] args) throws TelegramApiException {
-        NasaTGBot tgbot = new NasaTGBot("nasaim_bot", Settings.TG_TOKEN);
+        NasaTGBot tgbot = new NasaTGBot(Settings.BOT_NAME, Settings.TG_TOKEN);
     }
 }
