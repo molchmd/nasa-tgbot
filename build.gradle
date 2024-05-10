@@ -1,0 +1,16 @@
+plugins {
+    id 'java'
+}
+
+group = 'ru.molchmd'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.16.1'
+    implementation group: 'org.telegram', name: 'telegrambots', version: '6.5.0'
+}
