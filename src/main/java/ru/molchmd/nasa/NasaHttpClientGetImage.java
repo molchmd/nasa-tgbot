@@ -15,7 +15,7 @@ public class NasaHttpClientGetImage {
     private HttpGet getRequest;
     private CloseableHttpResponse getResponse;
     private NasaImageData image;
-    private final String GENERAL_API_NASA_URL = "https://api.nasa.gov/planetary/apod?api_key=";
+    private final String GENERAL_API_NASA_URL = "https://api.nasa.gov/planetary/apod?thumbs=True&api_key=";
     public final String ERROR_URL =
             "https://www.funnyart.club/uploads/posts/2022-12/1671990510_www-funnyart-club-p-memi-s-kotom-vkontakte-17.jpg";
 
