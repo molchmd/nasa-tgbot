@@ -41,4 +41,4 @@ public class Settings {
 
 ---
 
-*Release 1*
+*Release 2*
