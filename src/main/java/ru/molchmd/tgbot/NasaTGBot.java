@@ -32,6 +32,31 @@ public class NasaTGBot extends TelegramLongPollingBot {
             long chatId = update.getMessage().getChatId();
             String userText = update.getMessage().getText().toLowerCase();
 
+            if ("/start".equals(userText) || "/help".equals(userText)) {
+                SendMessage botText = new SendMessage();
+                botText.setChatId(chatId);
+
+                if ("/start".equals(userText))
+                    botText.setText(
+                            "Привет! Я бот, который может присылать картинку дня из NASA!\n" +
+                                    "Напиши \"Картинка\" и я пришлю ее!\n" +
+                                    "Или напиши \"/help\".\n"
+                    );
+                else
+                    botText.setText(
+                            "Я бот, который может присылать картинку дня из NASA!\n" +
+                                    "Напиши \"Картинка\" и я пришлю ее!\n" +
+                                    "Я понимаю только команды:\n- /start\n- /help\n- картинка"
+                    );
+                try {
+                    execute(botText);
+                    System.out.println("Send a text to [" + chatId +"]");
+                } catch (TelegramApiException e) {
+                    System.out.println("Error text!");
+                }
+                return;
+            }
+
             SendPhoto botPhoto = new SendPhoto();
             botPhoto.setChatId(chatId);
 
@@ -50,7 +75,7 @@ public class NasaTGBot extends TelegramLongPollingBot {
                 execute(botPhoto);
                 System.out.println("Send a photo to [" + chatId +"]");
             } catch (TelegramApiException e) {
-                System.out.println("Error!");
+                System.out.println("Error photo!");
             }
         }
     }
