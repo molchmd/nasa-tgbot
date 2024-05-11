@@ -11,11 +11,14 @@ import ru.molchmd.Settings;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 
 public class NasaHttpClientGetImage {
     private final CloseableHttpClient httpclient;
     private final ObjectMapper mapper;
     private final HttpGet getRequest;
+    private Calendar calendar;
+    private int lastDateSendPhoto;
     private CloseableHttpResponse getResponse;
     private NasaImageData image;
 
@@ -23,7 +26,7 @@ public class NasaHttpClientGetImage {
         return image.getTitle();
     }
 
-    private InputFile nasaPhoto;
+    private File nasaPhoto;
     private final String GENERAL_API_NASA_URL = "https://api.nasa.gov/planetary/apod?thumbs=True&api_key=";
     public final String ERROR_URL =
             "https://www.funnyart.club/uploads/posts/2022-12/1671990510_www-funnyart-club-p-memi-s-kotom-vkontakte-17.jpg";
@@ -38,7 +41,7 @@ public class NasaHttpClientGetImage {
         ERROR_PHOTO = new InputFile(error_photo);
     }
 
-    public String getImageURL() {
+    private String getImageURL() {
         try {
             try {
                 getRequest.setURI(new URI(GENERAL_API_NASA_URL + Settings.NASA_API_KEY));
@@ -62,6 +65,20 @@ public class NasaHttpClientGetImage {
         }
     }
     public InputFile getPhoto() {
+        if (calendar == null) {
+            calendar = Calendar.getInstance();
+            calendar.add(Calendar.HOUR_OF_DAY, -7);
+            lastDateSendPhoto = calendar.get(Calendar.DAY_OF_MONTH);
+        }
+        else {
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.add(Calendar.HOUR_OF_DAY, -7);
+            if (lastDateSendPhoto == calendar.get(Calendar.DAY_OF_MONTH))
+                return new InputFile(nasaPhoto, "photo");
+            else
+                lastDateSendPhoto = calendar.get(Calendar.DAY_OF_MONTH);
+        }
+
         try {
             getRequest.setURI(new URI(getImageURL()));
         }
@@ -71,14 +88,19 @@ public class NasaHttpClientGetImage {
 
         try {
             getResponse = httpclient.execute(getRequest);
-            InputStream inStream = getResponse.getEntity().getContent();
-            nasaPhoto = new InputFile(inStream, "photo");
-            return nasaPhoto;
+            try {
+                FileOutputStream fout = new FileOutputStream("src/main/resources/photo.jpg");
+                getResponse.getEntity().writeTo(fout);
+                nasaPhoto = new File("src/main/resources/photo.jpg");
+                return new InputFile(nasaPhoto, "photo");
+            }
+            finally {
+                getResponse.close();
+            }
         }
         catch (IOException e) {
             System.out.println("! Error: return ERROR_PHOTO");
             return ERROR_PHOTO;
         }
-
     }
 }
