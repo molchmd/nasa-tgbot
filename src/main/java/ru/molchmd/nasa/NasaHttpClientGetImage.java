@@ -26,7 +26,7 @@ public class NasaHttpClientGetImage {
         return image.getTitle();
     }
 
-    private InputFile nasaPhoto;
+    private File nasaPhoto;
     private final String GENERAL_API_NASA_URL = "https://api.nasa.gov/planetary/apod?thumbs=True&api_key=";
     public final String ERROR_URL =
             "https://www.funnyart.club/uploads/posts/2022-12/1671990510_www-funnyart-club-p-memi-s-kotom-vkontakte-17.jpg";
@@ -75,14 +75,19 @@ public class NasaHttpClientGetImage {
 
         try {
             getResponse = httpclient.execute(getRequest);
-            InputStream inStream = getResponse.getEntity().getContent();
-            nasaPhoto = new InputFile(inStream, "photo");
-            return nasaPhoto;
+            try {
+                FileOutputStream fout = new FileOutputStream("src/main/resources/photo.jpg");
+                getResponse.getEntity().writeTo(fout);
+                nasaPhoto = new File("src/main/resources/photo.jpg");
+                return new InputFile(nasaPhoto, "photo");
+            }
+            finally {
+                getResponse.close();
+            }
         }
         catch (IOException e) {
             System.out.println("! Error: return ERROR_PHOTO");
             return ERROR_PHOTO;
         }
-
     }
 }
