@@ -6,6 +6,7 @@ build/
 
 # Settings
 src/main/java/ru/molchmd/Settings.java
+/src/main/resources/photo.jpg
 
 ### IntelliJ IDEA ###
 .idea/
