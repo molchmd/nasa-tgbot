@@ -11,11 +11,14 @@ import ru.molchmd.Settings;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Calendar;
 
 public class NasaHttpClientGetImage {
     private final CloseableHttpClient httpclient;
     private final ObjectMapper mapper;
     private final HttpGet getRequest;
+    private Calendar calendar;
+    private int lastDateSendPhoto;
     private CloseableHttpResponse getResponse;
     private NasaImageData image;
 
@@ -38,7 +41,7 @@ public class NasaHttpClientGetImage {
         ERROR_PHOTO = new InputFile(error_photo);
     }
 
-    public String getImageURL() {
+    private String getImageURL() {
         try {
             try {
                 getRequest.setURI(new URI(GENERAL_API_NASA_URL + Settings.NASA_API_KEY));
@@ -62,6 +65,7 @@ public class NasaHttpClientGetImage {
         }
     }
     public InputFile getPhoto() {
+
         try {
             getRequest.setURI(new URI(getImageURL()));
         }
