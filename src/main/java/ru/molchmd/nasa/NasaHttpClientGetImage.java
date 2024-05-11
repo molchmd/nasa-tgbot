@@ -65,6 +65,19 @@ public class NasaHttpClientGetImage {
         }
     }
     public InputFile getPhoto() {
+        if (calendar == null) {
+            calendar = Calendar.getInstance();
+            calendar.add(Calendar.HOUR_OF_DAY, -7);
+            lastDateSendPhoto = calendar.get(Calendar.DAY_OF_MONTH);
+        }
+        else {
+            calendar.setTimeInMillis(System.currentTimeMillis());
+            calendar.add(Calendar.HOUR_OF_DAY, -7);
+            if (lastDateSendPhoto == calendar.get(Calendar.DAY_OF_MONTH))
+                return new InputFile(nasaPhoto, "photo");
+            else
+                lastDateSendPhoto = calendar.get(Calendar.DAY_OF_MONTH);
+        }
 
         try {
             getRequest.setURI(new URI(getImageURL()));
